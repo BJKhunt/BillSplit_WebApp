@@ -1,0 +1,89 @@
+﻿@model IEnumerable<WebApplication12.Models.Expense>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Index";
+    var user = await UserManager.GetUserAsync(User);
+}
+
+
+@if (@user.Value > 0.0)
+{
+    <button  align="center" type="button" class="btn btn-success"  >
+        You have to Take : <span class="badge badge-light">@user.Value</span>
+        <span class="sr-only">unread messages</span>
+    </button>
+
+}
+else
+{
+    <button type="button" class="btn btn-danger">
+        You have to Give : <span class="badge badge-light">@user.Value</span>
+        <span class="sr-only">unread messages</span>
+    </button>
+}
+<br />
+<hr />
+<p>
+    <a class="btn btn-primary" asp-action="Create">Create New Expense </a>
+</p>
+<hr />
+<table class="table table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Note)
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Amount
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var otherUser = await UserManager.FindByIdAsync(item.FriendUser);
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Note)
+                </td>
+                <td>
+                    @if (item.IsOwe == 1)
+                    {
+                        <p>You Owe to</p>
+                    }
+                    else
+                    {
+                        <p>You Paid to</p>
+                    }
+                    <p>@otherUser.FirstName</p>
+                </td>
+                <td>
+                    @if (item.IsOwe == 1)
+                    {
+                        <p class="btn btn-danger">@item.FriendUserValue</p>
+                    }
+                    else
+                    {
+                        <p class="btn btn-success">@item.FriendUserValue</p>
+                    }
+
+
+                </td>
+                <td>
+                    <a class="btn btn-success" asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,60 @@
+﻿@model WebApplication12.Models.Expense
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@{
+
+    ViewData["Title"] = "Edit";
+    var user = await UserManager.GetUserAsync(User);
+}
+
+<h1>Edit</h1>
+
+<h4>Expense</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="id" />
+            <div class="form-group">
+                <input asp-for="CurrentUser" class="form-control" type="hidden" value="@user.Id" />
+
+            </div>
+            <div class="form-group">
+                <label asp-for="Note" class="control-label"></label>
+                <input asp-for="Note" class="form-control" />
+                <span asp-validation-for="Note" class="text-danger"></span>
+            </div>
+            <hr />
+            <div class="form-group">
+                <label asp-for="IsOwe" class="control-label">Select Transaction Type : </label>
+                <select asp-for="IsOwe">
+                    <option value="0">Please select one</option>
+                    <option value="1">You Owe</option>
+                    <option value="2">You Paid</option>
+                </select>
+                <span asp-validation-for="FriendUser" class="text-danger"></span>
+            </div>
+            <hr />
+            <div class="form-group">
+                <label asp-for="FriendUser" class="control-label">Friend :</label>
+                <input asp-for="FriendUser" class="form-control" />
+                <span asp-validation-for="FriendUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FriendUserValue" class="control-label">Amount : </label>
+                <input asp-for="FriendUserValue" class="form-control" />
+                <span asp-validation-for="FriendUserValue" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-info">Back to List</a>
+</div>
+

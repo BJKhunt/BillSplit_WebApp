@@ -1,0 +1,64 @@
+﻿@model WebApplication12.Models.Expense
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Create";
+    var user = await UserManager.GetUserAsync(User);
+}
+
+<h1>Create Expenses</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Note" class="control-label">Enter a Small Note About Yor Expense:</label>
+                <input asp-for="Note" class="form-control" />
+                <span asp-validation-for="Note" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input value="@user.Id" type="hidden" asp-for="CurrentUser" class="form-control" />
+            </div>
+             
+            <hr />
+            <div class="form-group">
+                <label asp-for="IsOwe" class="control-label">Select Transaction Type : </label>
+                <select asp-for="IsOwe">
+                    <option value="0">Please select one</option>
+                    <option value="1">You Owe</option>
+                    <option value="2">You Paid</option>
+                </select>
+                <span asp-validation-for="FriendUser" class="text-danger"></span>
+            </div>
+            <hr />
+
+            <div class="form-group">
+                <label asp-for="FriendUser" class="control-label">Select Your Friend : </label>
+                <select asp-for="FriendUser"
+                        asp-items="@(ViewBag.selectedList)">
+                    <option>Please select one</option>
+                </select>
+                <span asp-validation-for="FriendUser" class="text-danger"></span>
+            </div>
+            <hr />
+            <div class="form-group">
+                <label asp-for="FriendUserValue" class="control-label">Select Amount : </label>
+                <input asp-for="FriendUserValue" class="form-control" />
+                <span asp-validation-for="FriendUserValue" class="text-danger"></span>
+            </div>
+            <hr />
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-info">Back to List</a>
+</div>
+

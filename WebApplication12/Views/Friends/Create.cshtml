@@ -1,0 +1,38 @@
+﻿@model WebApplication12.Models.Friend
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Create";
+    var user = await UserManager.GetUserAsync(User);
+}
+
+<h1 align="center" style="color:green;">Create a Friend</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input value="@user.Email" type="hidden" asp-for="CurrentUser" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="FriendUser" class="control-label">Enter a Email ID of Your Friend</label>
+                <input asp-for="FriendUser" class="form-control" />
+                <span asp-validation-for="FriendUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-info">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
